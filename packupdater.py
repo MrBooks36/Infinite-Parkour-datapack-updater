@@ -14,14 +14,18 @@ try:
   shortcut.IconLocation = target
   shortcut.save()
 
- response = input("Do you want to open updater on PC startup? Y/n ").strip().lower()
-
- if response == 'y':
+ 
+ if not path.exists(f'C:/Users/{username}/AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup/packupdater.lnk'):
+  response = input("Do you want to open updater on PC startup? Y/n ").strip().lower()
+  while True:
+   if response == 'y':
     print("Adding to startup ")
-    startup
- elif response == 'n':
-   print("ok")
- else:
+    startup()
+    break
+   elif response == 'n':
+    print("ok")
+    break
+   else:
     print("Invalid input. Please enter 'y' or 'n'.")
  #def paths
  if path.exists('config.txt'):
@@ -40,22 +44,26 @@ try:
   chmod(f'{p}/.git/objects/pack', 0o777)
   print('removed pain in the butt files ')
  except:
-   print('removed pain in the butt files ')
+   print("pain in the butt files didn't exist")
 
  try:
   if path.exists(p):
      rmtree(p)
      print(f"Old pack has been deleted.")
      print('installing new pack')
+  else:
+   print("Old datapack didn't exist. This might be a error in your config.txt or it never existed  ")
  except:
    print("Your config.txt isn't set up correctly\nMessage MrBooks36 for a fix at https://discord.com/users/1327055692179177494")
    input('press enter to end')
    quit()
+ print('installing pack')
  repo = Repo.clone_from(repo_url, f"{p}")
+ print('pack installed')
  chdir(p)
  system(f'{p}/autobuild.bat')
 except NotADirectoryError or FileNotFoundError :
   print("Your config.txt isn't set up correctly")
 except Exception as e: 
   print(f'{e}\nMessage MrBooks36 for a fix at https://discord.com/users/1327055692179177494')
-input('press enter to end')
+  input('press enter to end')
