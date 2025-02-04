@@ -3,7 +3,7 @@ An updater for the Infinite Parkour Datapack
 
 # Install Instructions 
 Install git
-[Git for Windows](https://git-scm.com/downloads/win
+[Git](https://git-scm.com/downloads
 )
 
 If you use the normal .minecraft folder, you don't need to do anything
