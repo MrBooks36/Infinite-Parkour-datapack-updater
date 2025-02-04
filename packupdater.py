@@ -25,8 +25,7 @@ try:
    elif response == 'n':
     print("ok")
     break
-   else:
-    print("Invalid input. Please enter 'y' or 'n'.")
+
  #def paths
  if path.exists('config.txt'):
    with open('config.txt', 'r') as file:
@@ -41,22 +40,27 @@ try:
 
  #give access to pain in the butt to remove files 
  try:
-  chmod(f'{p}/.git/objects/pack', 0o777)
-  print('removed pain in the butt files ')
+  chmod(f'{p}/.git/objects/pack/pack-bf62a5020e26a1196cbf38be806c5194d4ff52b8.idx', 0o777)
+  print('removed pain in the butt file 1 ')
  except:
-   print("pain in the butt files didn't exist")
-
+   print("pain in the butt file 1 didn't exist")
  try:
-  if path.exists(p):
+  chmod(f'{p}/.git/objects/pack/pack-bf62a5020e26a1196cbf38be806c5194d4ff52b8.pack', 0o777)
+  print('removed pain in the butt file 2 ')
+ except:
+   print("pain in the butt file 2 didn't exist")
+ try:
+  chmod(f'{p}/.git/objects/pack/pack-bf62a5020e26a1196cbf38be806c5194d4ff52b8.rev', 0o777)
+  print('removed pain in the butt file 3 ')
+ except:
+   print("pain in the butt file 3 didn't exist")
+
+ if path.exists(p):
      rmtree(p)
      print(f"Old pack has been deleted.")
      print('installing new pack')
-  else:
+ else:
    print("Old datapack didn't exist. This might be a error in your config.txt or it never existed  ")
- except:
-   print("Your config.txt isn't set up correctly\nMessage MrBooks36 for a fix at https://discord.com/users/1327055692179177494")
-   input('press enter to end')
-   quit()
  print('installing pack')
  repo = Repo.clone_from(repo_url, f"{p}")
  print('pack installed')
