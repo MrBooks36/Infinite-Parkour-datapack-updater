@@ -5,9 +5,9 @@ import shutil
 
 #def paths
 if os.path.exists('config.txt'):
-  fd = os.open("config.txt", os.O_RDONLY) 
-  path = os.read(fd, 50) 
-  print(path)
+ with open('config.txt', 'r') as file:
+  path = file.read()
+  print(f'{path}/saves/infinite-parkour-alpha-v0.1.2/datapacks/Infinite-Parkour-datapack')
   p = (f'{path}/saves/infinite-parkour-alpha-v0.1.2/datapacks/Infinite-Parkour-datapack')
 else:
   username = os.getlogin()
