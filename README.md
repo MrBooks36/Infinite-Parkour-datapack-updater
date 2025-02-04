@@ -2,6 +2,8 @@
 An updater for the Infinite Parkour Datapack 
 
 # Install Instructions 
+Will be flagged by Anti-virus software, but you can checkthe code here 
+
 Install 
 [Git](https://git-scm.com/downloads
 )
