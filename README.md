@@ -10,6 +10,6 @@ Install
 
 If you use the normal .minecraft folder, you don't need to do anything
 
-If you use a different location, make a config.txt in the same folder and put the path the the folder (note. not the world folder)
+If you use a different location, make a config.txt in the same folder and put the path the the folder (note. not the world folder, the Minecraft folder)
 
 # Then run it to update to the latest version 
