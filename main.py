@@ -2,7 +2,16 @@ import os
 from git import Repo
 import shutil
 
-
+username = os.getlogin()
+import os, win32com.client
+username = os.getlogin()
+#desktop = r"path to where you wanna put your .lnk file"
+target = script_path = os.path.abspath(__file__)
+shell = win32com.client.Dispatch("WScript.Shell")
+shortcut = shell.CreateShortCut(f'C:/Users/{username}/AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup/packupdater.lnk')
+shortcut.Targetpath = target
+shortcut.IconLocation = target
+shortcut.save()
 #def paths
 if os.path.exists('config.txt'):
  with open('config.txt', 'r') as file:
@@ -10,7 +19,6 @@ if os.path.exists('config.txt'):
   print(f'{path}/saves/infinite-parkour-alpha-v0.1.2/datapacks/Infinite-Parkour-datapack')
   p = (f'{path}/saves/infinite-parkour-alpha-v0.1.2/datapacks/Infinite-Parkour-datapack')
 else:
-  username = os.getlogin()
   p = (f'C:/Users/{username}/AppData/Roaming/.minecraft/saves/infinite-parkour-alpha-v0.1.2/datapacks/Infinite-Parkour-datapack')
   print(p)
 
