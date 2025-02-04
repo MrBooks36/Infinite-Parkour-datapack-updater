@@ -2,7 +2,7 @@
 An updater for the Infinite Parkour Datapack 
 
 # Install Instructions 
-Install git
+Install 
 [Git](https://git-scm.com/downloads
 )
 
