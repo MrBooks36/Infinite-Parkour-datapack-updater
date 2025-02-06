@@ -4,18 +4,22 @@ from os import getlogin, path, chmod, chdir, system, remove
 from shutil import rmtree
 from git import Repo
 from ctypes import windll
+from json import load, dump
 # create root window
 root = Tk()
 repo_url = 'https://github.com/Big-Con-Gaming/Infinite-Parkour-datapack'
 username = getlogin()
 kernel32 = windll.kernel32
 uptime = kernel32.GetTickCount64() / 1000.0 
-if uptime <= 60:
+if uptime <= 60 and path.exists(f'C:/Users/{username}/AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup/packupdater.lnk'):
   try:
-   if path.exists('config.txt'):
-    with open('example.txt', 'r') as file:
-     config = file.read()
-     p = (f'{config}/saves/infinite-parkour-alpha-v0.1.2/datapacks/Infinite-Parkour-datapack')
+   if path.exists('config.json'):
+    with open('config.json', 'r') as file:
+     config = load(file)
+     for i in config['path']:
+      config = i
+
+     p = (config)
      print(f'Folder path at\n{p}')
    else:
     p = (f'C:/Users/{username}/AppData/Roaming/.minecraft/saves/infinite-parkour-alpha-v0.1.2/datapacks/Infinite-Parkour-datapack')
@@ -66,7 +70,7 @@ def help():
 
 def reset():
  try:
-  remove("config.txt")
+  remove("config.json")
   messagebox.showinfo("Config Reset",'Config Reset')
  except:
   print("config didn't exist")
@@ -88,8 +92,11 @@ def run():
    if len(txt.get()) != 0:
     p = (f'{txt.get()}/saves/infinite-parkour-alpha-v0.1.2/datapacks/Infinite-Parkour-datapack')
     print(f'Folder path at\n{p}')
-    with open('config.txt', 'w') as file:
-     file.write(p)
+    data = {
+    "path": txt.get(),
+    }
+    with open('config.json', 'w') as json_file:
+     dump(data, json_file, indent=4)
    else:
     p = (f'C:/Users/{username}/AppData/Roaming/.minecraft/saves/infinite-parkour-alpha-v0.1.2/datapacks/Infinite-Parkour-datapack')
     print(f'Folder path at\n{p}')
@@ -147,9 +154,11 @@ lbl.grid(column=2, row=0)
 
 txt = Entry(root, width=10)
 txt.grid(column=3, row =0)
-if path.exists("config.txt"):
-    with open('config.txt', 'r') as file:
-     config = file.read()
+if path.exists("config.json"):
+  with open('config.json', 'r') as file:
+    config = load(file)
+    for i in config['path']:
+     config = i
      txt.insert(1,config)
 # Execute Tkinter
 root.resizable(width=False, height=False)
