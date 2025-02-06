@@ -2,7 +2,7 @@
 An updater for the Infinite Parkour Datapack 
 
 # Install Instructions 
-Windows only. *sorry macOS, but you suck*
+Windows only. *sorry macOS you are a work in progress*
 
 Might be flagged by Anti-virus software, but you can check the code here 
 
