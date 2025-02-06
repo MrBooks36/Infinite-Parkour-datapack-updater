@@ -6,7 +6,7 @@ Windows only. *sorry macOS you are a work in progress*
 
 Might be flagged by Anti-virus software, but you can check the code here 
 
-Install 
+you might need to install 
 [Git](https://git-scm.com/downloads
 )
 
