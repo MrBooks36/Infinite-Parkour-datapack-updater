@@ -92,36 +92,19 @@ def run():
    if len(txt.get()) != 0:
     p = (f'{txt.get()}/saves/infinite-parkour-alpha-v0.1.2/datapacks/Infinite-Parkour-datapack')
     print(f'Folder path at\n{p}')
-    data = {
-    "path": txt.get(),
-    }
-    with open('config.json', 'w') as json_file:
-     dump(data, json_file, indent=4)
    else:
     p = (f'C:/Users/{username}/AppData/Roaming/.minecraft/saves/infinite-parkour-alpha-v0.1.2/datapacks/Infinite-Parkour-datapack')
     print(f'Folder path at\n{p}')
    #give access to pain in the butt to remove files 
    try:
-    chmod(f'{p}/.git/objects/pack/pack-bf62a5020e26a1196cbf38be806c5194d4ff52b8.idx', 0o777)
-    print('removed pain in the butt file 1 ')
-   except:
-    print("pain in the butt file 1 didn't exist")
-   try:
-    chmod(f'{p}/.git/objects/pack/pack-bf62a5020e26a1196cbf38be806c5194d4ff52b8.pack', 0o777)
-    print('removed pain in the butt file 2 ')
-   except:
-    print("pain in the butt file 2 didn't exist")
-   try:
-    chmod(f'{p}/.git/objects/pack/pack-bf62a5020e26a1196cbf38be806c5194d4ff52b8.rev', 0o777)
-    print('removed pain in the butt file 3 ')
-   except:
-    print("pain in the butt file 3 didn't exist")
-   if path.exists(p):
+    if path.exists(p):
      rmtree(p)
      print(f"Old pack has been deleted.")
-   else:
-    print("Old datapack didn't exist. This might be a error in your path or it never existed")
-    messagebox.showwarning('Warning', "Old datapack didn't exist. This might be a error in your path or it never existed")
+    else:
+     print("Old datapack didn't exist. This might be a error in your path or it never existed")
+     messagebox.showwarning('Warning', "Old datapack didn't exist. This might be a error in your path or it never existed")
+   except:
+    print('k')
    print('downloading')
    repo = Repo.clone_from(repo_url, p)
    print('compiling')
@@ -154,12 +137,6 @@ lbl.grid(column=2, row=0)
 
 txt = Entry(root, width=10)
 txt.grid(column=3, row =0)
-if path.exists("config.json"):
-  with open('config.json', 'r') as file:
-    config = load(file)
-    for i in config['path']:
-     config = i
-     txt.insert(1,config)
 # Execute Tkinter
 root.resizable(width=False, height=False)
 root.mainloop()
