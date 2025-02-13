@@ -27,7 +27,7 @@ def find_directories_with_name(root_dir ):
     return matching_dirs
 
 def run():
-  try:
+  if True:
    #test for custom path
    if len(txt.get()) != 0:
     data = {
@@ -39,37 +39,35 @@ def run():
     #set path
     p = (f"{find_directories_with_name(f'{txt.get()}/saves')}datapacks/Infinite-Parkour-datapack")
     #find OG datapack 
-    with f"{find_directories_with_name(f'{txt.get()}/saves')}datapacks/Infinite-Parkour" as old:
-     if path.exists(old) :
-      rmtree(old)
+    if path.exists(f"C{find_directories_with_name(f'C:/Users/{username}/AppData/Roaming/.minecraft/saves')}/datapacks/Infinite-Parkour") :
+      rmtree(f"C{find_directories_with_name(f'C:/Users/{username}/AppData/Roaming/.minecraft/saves')}/datapacks/Infinite-Parkour")
     print(f'Folder path at\n{p}')
    else:
     #set path
     p = (f"{find_directories_with_name(f'C:/Users/{username}/AppData/Roaming/.minecraft/saves')}/datapacks/Infinite-Parkour-datapack")
     #find OG datapack 
-    with f"C{find_directories_with_name(f'C:/Users/{username}/AppData/Roaming/.minecraft/saves')}/datapacks/Infinite-Parkour" as old:
-     if path.exists(old):
-      rmtree(old)
+    if path.exists(f"C{find_directories_with_name(f'C:/Users/{username}/AppData/Roaming/.minecraft/saves')}/datapacks/Infinite-Parkour"):
+      rmtree(f"C{find_directories_with_name(f'C:/Users/{username}/AppData/Roaming/.minecraft/saves')}/datapacks/Infinite-Parkour")
     print(f'Folder path at\n{p}')
    try:
     #give access to pain in the butt to remove files 
     chdir(f'{p}/.git/objects/pack')
     files = listdir(f'{p}/.git/objects/pack')
-    files = [f for f in files if path.isfile(f'{p}/.git/objects/pack'+'/'+f)]
+    files = [f for f in files if path.isfile(f'{p}/.git/objects/pack'+"/"+f)]
     print(*files, sep="\n")
     chmod(files[0], 0o777)
     chmod(files[1], 0o777)
     chmod(files[2], 0o777)
    except:
     print("pain in the butt to remove files didn't exist")
-   #remove old pack
+   #remove f"C{find_directories_with_name(f'C:/Users/{username}/AppData/Roaming/.minecraft/saves')}/datapacks/Infinite-Parkour" pack
    if path.exists(p):
      chdir('C:/')
      rmtree(p)
-     print(f"Old pack has been deleted.")
+     print("old pack has been deleted.")
    else:
-     print("Old datapack didn't exist. This might be a error in your path or it never existed")
-     messagebox.showwarning('Warning', "Old datapack didn't exist. This might be a error in your path or it never existed")
+     print("old datapack didn't exist. This might be a error in your path or it never existed")
+     messagebox.showwarning('Warning', "old datapack didn't exist. This might be a error in your path or it never existed")
    #get new pack from github
    print('downloading')
    Repo.clone_from(repo_url, p)
@@ -78,9 +76,9 @@ def run():
    #start compiler
    system(f'{p}/autobuild.bat')
    messagebox.showinfo("Done",'Done')
-  except Exception as e:
-   print(e)
-   messagebox.showerror('Error', f"{e}\n An error occurred, DM MrBooks36 for help. Error copied to clipbord")
+  #except Exception as e:
+  # print(e)
+  # messagebox.showerror('Error', f"{e}\n An error occurred, DM MrBooks36 for help. Error copied to clipbord")
 
 def reset():
   #reset config
