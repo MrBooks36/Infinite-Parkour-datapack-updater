@@ -27,7 +27,7 @@ def find_directories_with_name(root_dir ):
     return matching_dirs
 
 def run():
-  if True:
+  try:
    #test for custom path
    if len(txt.get()) != 0:
     data = {
@@ -76,9 +76,9 @@ def run():
    #start compiler
    system(f'{p}/autobuild.bat')
    messagebox.showinfo("Done",'Done')
-  #except Exception as e:
-  # print(e)
-  # messagebox.showerror('Error', f"{e}\n An error occurred, DM MrBooks36 for help. Error copied to clipbord")
+  except Exception as e:
+   print(e)
+   messagebox.showerror('Error', f"{e}\n An error occurred, DM MrBooks36 for help. Error copied to clipbord")
 
 def reset():
   #reset config
