@@ -37,7 +37,7 @@ def run():
     with open('config.json', 'w', encoding='utf-8') as f:
      dump(data, f, ensure_ascii=False, indent=4)
     #set path
-    p = (f"{find_directories_with_name(f'{txt.get()}/saves')}datapacks/Infinite-Parkour-datapack")
+    p = (f"{find_directories_with_name(f'{txt.get()}/saves')}/datapacks/Infinite-Parkour-datapack")
     #find OG datapack 
     if path.exists(f"C{find_directories_with_name(f'C:/Users/{username}/AppData/Roaming/.minecraft/saves')}/datapacks/Infinite-Parkour") :
       rmtree(f"C{find_directories_with_name(f'C:/Users/{username}/AppData/Roaming/.minecraft/saves')}/datapacks/Infinite-Parkour")
