@@ -15,3 +15,5 @@ If you use the normal .minecraft folder, you don't need to do anything
 If you use a different location, put the path to the folder in the 'custom path' box . It will remember your settings  (note. not the world folder, the Minecraft folder)
 
 # Then run it to update to the latest version 
+
+you will need to CTRL+C to stop the compiler 
