@@ -79,6 +79,8 @@ def run():
   except Exception as e:
    print(e)
    messagebox.showerror('Error', f"{e}\n An error occurred, DM MrBooks36 for help. Error copied to clipbord")
+  root.clipboard_clear()
+  root.clipboard_append(e)
 
 def reset():
   #reset config
