@@ -22,8 +22,8 @@ def find_directories_with_name(root_dir ):
     for dirpath, dirnames, filenames in walk(root_dir):
         for dirname in dirnames:
             if 'infinite-parkour' in dirname:
-                matching_dirs.append(path.join(dirpath, dirname))
-                matching_dirs = matching_dirs[0]
+                matching_dirs = f'{dirpath}/{dirname}'
+                print(matching_dirs)
     return matching_dirs
 
 def run():
