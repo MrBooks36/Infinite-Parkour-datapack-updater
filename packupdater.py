@@ -69,11 +69,11 @@ def run():
      messagebox.showwarning('Warning', "old datapack didn't exist. This might be a error in your path or it never existed")
    #get new pack from github
    print('downloading')
-   chdir(p)
-   system(f'git clone {repo_url}')
-   print('compiling')
    pp = p.replace('/Infinite-Parkour-datapack', '')
    chdir(pp)
+   system(f'git clone {repo_url}')
+   print('compiling')
+   chdir(p)
    #start compiler
    system(f'{p}/autobuild.bat')
    messagebox.showinfo("Done",'Done')
