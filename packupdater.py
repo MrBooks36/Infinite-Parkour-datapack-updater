@@ -60,7 +60,7 @@ def run():
     chmod(files[2], 0o777)
    except:
     print("pain in the butt to remove files didn't exist")
-   #remove f"C{find_directories_with_name(f'C:/Users/{username}/AppData/Roaming/.minecraft/saves')}/datapacks/Infinite-Parkour" pack
+   #remove old pack
    if path.exists(p):
      chdir('C:/')
      rmtree(p)
