@@ -2,7 +2,7 @@
 from tkinter import Tk, Button, Entry, Label, messagebox, END
 from os import getlogin, path, chmod, chdir, listdir, system, walk, remove
 from shutil import rmtree
-from git import Repo
+import fnmatch
 from json import dump, load
 # create root window
 root = Tk()
@@ -17,14 +17,13 @@ def help():
  root.clipboard_append('https://discord.com/users/1327055692179177494')
  messagebox.showinfo("Copied",'URL copied to Clipboard')
 
-def find_directories_with_name(root_dir ):
+def find(root_dir):
     matching_dirs = []
-    for dirpath, dirnames, filenames in walk(root_dir):
-        for dirname in dirnames:
-            if 'infinite-parkour' in dirname:
-                matching_dirs = f'{dirpath}/{dirname}'
-                print(matching_dirs)
-    return matching_dirs
+    for root, dirs, files in walk(root_dir):
+        for dir_name in dirs:
+            if fnmatch.fnmatch(dir_name, f'*Infinite-Parkour*'):
+                matching_dirs.append(path.join(root, dir_name))
+    return matching_dirs[0]
 
 def run():
   try:
@@ -37,17 +36,17 @@ def run():
     with open('config.json', 'w', encoding='utf-8') as f:
      dump(data, f, ensure_ascii=False, indent=4)
     #set path
-    p = (f"{find_directories_with_name(f'{txt.get()}/saves')}/datapacks/Infinite-Parkour-datapack")
+    p = (f"{find(f'{txt.get()}/saves')}/datapacks/Infinite-Parkour-datapack")
     #find OG datapack 
-    if path.exists(f"C{find_directories_with_name(f'C:/Users/{username}/AppData/Roaming/.minecraft/saves')}/datapacks/Infinite-Parkour") :
-      rmtree(f"C{find_directories_with_name(f'C:/Users/{username}/AppData/Roaming/.minecraft/saves')}/datapacks/Infinite-Parkour")
+    if path.exists(f"C{find(f'C:/Users/{username}/AppData/Roaming/.minecraft/saves')}/datapacks/Infinite-Parkour") :
+      rmtree(f"C{find(f'C:/Users/{username}/AppData/Roaming/.minecraft/saves')}/datapacks/Infinite-Parkour")
     print(f'Folder path at\n{p}')
    else:
     #set path
-    p = (f"{find_directories_with_name(f'C:/Users/{username}/AppData/Roaming/.minecraft/saves')}/datapacks/Infinite-Parkour-datapack")
+    p = (f"{find(f'C:/Users/{username}/AppData/Roaming/.minecraft/saves')}/datapacks/Infinite-Parkour-datapack")
     #find OG datapack 
-    if path.exists(f"C{find_directories_with_name(f'C:/Users/{username}/AppData/Roaming/.minecraft/saves')}/datapacks/Infinite-Parkour"):
-      rmtree(f"C{find_directories_with_name(f'C:/Users/{username}/AppData/Roaming/.minecraft/saves')}/datapacks/Infinite-Parkour")
+    if path.exists(f"C{find(f'C:/Users/{username}/AppData/Roaming/.minecraft/saves')}/datapacks/Infinite-Parkour"):
+      rmtree(f"C{find(f'C:/Users/{username}/AppData/Roaming/.minecraft/saves')}/datapacks/Infinite-Parkour")
     print(f'Folder path at\n{p}')
    try:
     #give access to pain in the butt to remove files 
@@ -70,9 +69,11 @@ def run():
      messagebox.showwarning('Warning', "old datapack didn't exist. This might be a error in your path or it never existed")
    #get new pack from github
    print('downloading')
-   Repo.clone_from(repo_url, p)
-   print('compiling')
    chdir(p)
+   system(f'git clone {repo_url}')
+   print('compiling')
+   pp = p.replace('/Infinite-Parkour-datapack', '')
+   chdir(pp)
    #start compiler
    system(f'{p}/autobuild.bat')
    messagebox.showinfo("Done",'Done')
