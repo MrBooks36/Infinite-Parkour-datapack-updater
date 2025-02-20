@@ -6,7 +6,7 @@ Windows only. *sorry macOS you are NOT a work in progress*
 
 Might be flagged by Anti-virus software, but you can check the code here 
 
-you might need to install 
+you will need to have 
 [Git](https://git-scm.com/downloads
 )
 
@@ -16,4 +16,4 @@ If you use a different location, put the path to the folder in the 'custom path'
 
 # Then run it to update to the latest version 
 
-you will need to CTRL+C to stop the compiler 
+NOTE: you will need to CTRL+C to stop the compiler as it is not done
