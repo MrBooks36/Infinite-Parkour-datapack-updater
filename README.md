@@ -4,6 +4,8 @@ An updater for the Infinite Parkour Datapack
 # Install Instructions 
 Windows only. *sorry macOS you are NOT a work in progress*
 
+only download the EXE
+
 Might be flagged by Anti-virus software, but you can check the code here 
 
 you will need to have 
