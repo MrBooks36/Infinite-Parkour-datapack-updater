@@ -2,8 +2,13 @@
 from tkinter import Tk, Button, Entry, Label, messagebox, END
 from os import getlogin, path, chmod, chdir, listdir, system, walk, remove
 from shutil import rmtree
-import fnmatch
+from fnmatch import fnmatch
 from json import dump, load
+
+try:
+  system('git')
+except:
+  messagebox.showerror('Error', "BRO DID YOU NOT READ THE INSTRUCTIONS INSTALL GIT!!!")
 # create root window
 root = Tk()
 repo_url = 'https://github.com/Big-Con-Gaming/Infinite-Parkour-datapack'
@@ -18,12 +23,15 @@ def help():
  messagebox.showinfo("Copied",'URL copied to Clipboard')
 
 def find(root_dir):
+  try:
     matching_dirs = []
     for root, dirs, files in walk(root_dir):
         for dir_name in dirs:
-            if fnmatch.fnmatch(dir_name, f'*Infinite-Parkour*'):
+            if fnmatch(dir_name, f'*Infinite-Parkour*'):
                 matching_dirs.append(path.join(root, dir_name))
     return matching_dirs[0]
+  except IndexError:
+    messagebox.showerror('Error', "Cannot find world. This might be a error in your path or it never existed ")
 
 def run():
   try:
@@ -38,15 +46,15 @@ def run():
     #set path
     p = (f"{find(f'{txt.get()}/saves')}/datapacks/Infinite-Parkour-datapack")
     #find OG datapack 
-    if path.exists(f"C{find(f'C:/Users/{username}/AppData/Roaming/.minecraft/saves')}/datapacks/Infinite-Parkour") :
-      rmtree(f"C{find(f'C:/Users/{username}/AppData/Roaming/.minecraft/saves')}/datapacks/Infinite-Parkour")
+    if path.exists(f"{find(f'{txt.get()}/saves')}/datapacks/Infinite-Parkour") :
+     rmtree(f"{find(f'{txt.get()}/saves')}/datapacks/Infinite-Parkour")
     print(f'Folder path at\n{p}')
    else:
     #set path
     p = (f"{find(f'C:/Users/{username}/AppData/Roaming/.minecraft/saves')}/datapacks/Infinite-Parkour-datapack")
     #find OG datapack 
     if path.exists(f"C{find(f'C:/Users/{username}/AppData/Roaming/.minecraft/saves')}/datapacks/Infinite-Parkour"):
-      rmtree(f"C{find(f'C:/Users/{username}/AppData/Roaming/.minecraft/saves')}/datapacks/Infinite-Parkour")
+     rmtree(f"C{find(f'C:/Users/{username}/AppData/Roaming/.minecraft/saves')}/datapacks/Infinite-Parkour")
     print(f'Folder path at\n{p}')
    try:
     #give access to pain in the butt to remove files 
