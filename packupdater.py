@@ -12,7 +12,6 @@ except:
 # create root window
 root = Tk()
 repo_url = 'https://github.com/Big-Con-Gaming/Infinite-Parkour-datapack'
-username = getlogin()
 root.title("Packupdater")
 root.geometry('190x50')
 
@@ -51,10 +50,10 @@ def run():
     print(f'Folder path at\n{p}')
    else:
     #set path
-    p = (f"{find(f'C:/Users/{username}/AppData/Roaming/.minecraft/saves')}/datapacks/Infinite-Parkour-datapack")
+    p = (f"{find(f'C:/Users/{getlogin()}/AppData/Roaming/.minecraft/saves')}/datapacks/Infinite-Parkour-datapack")
     #find OG datapack 
-    if path.exists(f"C{find(f'C:/Users/{username}/AppData/Roaming/.minecraft/saves')}/datapacks/Infinite-Parkour"):
-     rmtree(f"C{find(f'C:/Users/{username}/AppData/Roaming/.minecraft/saves')}/datapacks/Infinite-Parkour")
+    if path.exists(f"C{find(f'C:/Users/{getlogin()}/AppData/Roaming/.minecraft/saves')}/datapacks/Infinite-Parkour"):
+     rmtree(f"C{find(f'C:/Users/{getlogin()}/AppData/Roaming/.minecraft/saves')}/datapacks/Infinite-Parkour")
     print(f'Folder path at\n{p}')
    try:
     #give access to pain in the butt to remove files 
