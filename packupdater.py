@@ -5,6 +5,7 @@ from fnmatch import fnmatch
 from json import dump, load
 from win32com.client import Dispatch
 from time import sleep
+from subprocess import Popen
 
 def check_git():
     if  which('git'):
@@ -91,7 +92,7 @@ def run():
         system(f'git clone https://github.com/Big-Con-Gaming/Infinite-Parkour-datapack')
         
         chdir(datapack_path)
-        system(f'{datapack_path}/autobuild.bat')
+        Popen([f'{datapack_path}/autobuild.bat'], start_new_session=True)
         shell = Dispatch("WScript.Shell")
         sleep(1)
         shell.AppActivate("powershell")
