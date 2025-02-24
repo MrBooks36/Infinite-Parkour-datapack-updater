@@ -3,7 +3,6 @@ from os import getlogin, path, chmod, chdir, listdir, system, walk, remove
 from shutil import rmtree, which
 from fnmatch import fnmatch
 from json import dump, load
-from win32com.client import Dispatch
 from time import sleep
 from subprocess import Popen
 
@@ -92,14 +91,8 @@ def run():
         system(f'git clone https://github.com/Big-Con-Gaming/Infinite-Parkour-datapack')
         
         chdir(datapack_path)
-        Popen([f'{datapack_path}/autobuild.bat'], start_new_session=True)
-        sleep(3)
-        shell = Dispatch("WScript.Shell")
-        sleep(1)
-        shell.AppActivate("powershell")
-        shell.SendKeys('^c')
-        sleep(1)
-        shell.SendKeys('y')
+        system(f'{datapack_path}/autobuild.bat')
+
         messagebox.showinfo("Done", 'Update complete!')
     except Exception as e:
         messagebox.showerror('Error', f"{e}\nAn error occurred. Contact MrBooks36 for help.")
