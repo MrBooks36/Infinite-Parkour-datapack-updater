@@ -93,6 +93,7 @@ def run():
         
         chdir(datapack_path)
         Popen([f'{datapack_path}/autobuild.bat'], start_new_session=True)
+        sleep(3)
         shell = Dispatch("WScript.Shell")
         sleep(1)
         shell.AppActivate("powershell")
