@@ -1,116 +1,118 @@
-# Import Module
 from tkinter import Tk, Button, Entry, Label, messagebox, END
 from os import getlogin, path, chmod, chdir, listdir, system, walk, remove
 from shutil import rmtree
 from fnmatch import fnmatch
 from json import dump, load
+from win32com.client import Dispatch
 
-try:
-  system('git')
-except:
-  messagebox.showerror('Error', "BRO DID YOU NOT READ THE INSTRUCTIONS INSTALL GIT!!!")
-# create root window
-root = Tk()
-repo_url = 'https://github.com/Big-Con-Gaming/Infinite-Parkour-datapack'
-root.title("Packupdater")
-root.geometry('190x50')
+def check_git():
+    try:
+        system('git')
+    except:
+        messagebox.showerror('Error', "Install Git before running this program!")
+        exit()
 
-def help():
- #get help
- root.clipboard_clear()
- root.clipboard_append('https://discord.com/users/1327055692179177494')
- messagebox.showinfo("Copied",'URL copied to Clipboard')
+def copy_to_clipboard(url):
+    root.clipboard_clear()
+    root.clipboard_append(url)
+    messagebox.showinfo("Copied", 'URL copied to Clipboard')
 
-def find(root_dir):
-  try:
-    matching_dirs = []
-    for root, dirs, files in walk(root_dir):
+def find_world(root_dir):
+    for root, dirs, _ in walk(root_dir):
         for dir_name in dirs:
-            if fnmatch(dir_name, f'*Infinite-Parkour*'):
-                matching_dirs.append(path.join(root, dir_name))
-    return matching_dirs[0]
-  except IndexError:
-    messagebox.showerror('Error', "Cannot find world. This might be a error in your path or it never existed ")
+            if fnmatch(dir_name, '*Infinite-Parkour*'):
+                return path.join(root, dir_name)
+    messagebox.showerror('Error', "Cannot find world. Check your path or ensure it exists.")
+    return None
+
+def save_config(custom_path):
+    with open('config.json', 'w', encoding='utf-8') as f:
+        dump({"data": custom_path}, f, ensure_ascii=False, indent=4)
+
+def load_config():
+    if path.exists('config.json'):
+        with open('config.json', 'r') as file:
+            return load(file).get('data', '')
+    return ''
+
+def remove_old_datapack(datapack_path, old):
+    if path.exists(datapack_path):
+        rmtree(datapack_path)
+        print("Old datapack deleted.")
+    elif old != True:
+        print("Old datapack nott found.")
+        messagebox.showwarning('Warning', "Old datapack not found.")
+
+def unlock_git_files(datapack_path):
+    git_pack_path = path.join(datapack_path, '.git', 'objects', 'pack')
+    if path.exists(git_pack_path):
+        chdir(git_pack_path)
+        for file in listdir(git_pack_path):
+            chmod(file, 0o777)
+        print("Unlocked Git files.")
+        chdir('C:/')
+    else:
+        print("No Git files to unlock.")
 
 def run():
-  try:
-   #test for custom path
-   if len(txt.get()) != 0:
-    data = {
-    "data" : txt.get()
-     } 
-    #save to JSON
-    with open('config.json', 'w', encoding='utf-8') as f:
-     dump(data, f, ensure_ascii=False, indent=4)
-    #set path
-    p = (f"{find(f'{txt.get()}/saves')}/datapacks/Infinite-Parkour-datapack")
-    #find OG datapack 
-    if path.exists(f"{find(f'{txt.get()}/saves')}/datapacks/Infinite-Parkour") :
-     rmtree(f"{find(f'{txt.get()}/saves')}/datapacks/Infinite-Parkour")
-    print(f'Folder path at\n{p}')
-   else:
-    #set path
-    p = (f"{find(f'C:/Users/{getlogin()}/AppData/Roaming/.minecraft/saves')}/datapacks/Infinite-Parkour-datapack")
-    #find OG datapack 
-    if path.exists(f"C{find(f'C:/Users/{getlogin()}/AppData/Roaming/.minecraft/saves')}/datapacks/Infinite-Parkour"):
-     rmtree(f"C{find(f'C:/Users/{getlogin()}/AppData/Roaming/.minecraft/saves')}/datapacks/Infinite-Parkour")
-    print(f'Folder path at\n{p}')
-   try:
-    #give access to pain in the butt to remove files 
-    chdir(f'{p}/.git/objects/pack')
-    files = listdir(f'{p}/.git/objects/pack')
-    files = [f for f in files if path.isfile(f'{p}/.git/objects/pack'+"/"+f)]
-    print(*files, sep="\n")
-    chmod(files[0], 0o777)
-    chmod(files[1], 0o777)
-    chmod(files[2], 0o777)
-   except:
-    print("pain in the butt to remove files didn't exist")
-   #remove old pack
-   if path.exists(p):
-     chdir('C:/')
-     rmtree(p)
-     print("old pack has been deleted.")
-   else:
-     print("old datapack didn't exist. This might be a error in your path or it never existed")
-     messagebox.showwarning('Warning', "old datapack didn't exist. This might be a error in your path or it never existed")
-   #get new pack from github
-   print('downloading')
-   pp = p.replace('/Infinite-Parkour-datapack', '')
-   chdir(pp)
-   system(f'git clone {repo_url}')
-   print('compiling')
-   chdir(p)
-   #start compiler
-   system(f'{p}/autobuild.bat')
-   messagebox.showinfo("Done",'Done')
-  except Exception as e:
-   print(e)
-   messagebox.showerror('Error', f"{e}\n An error occurred, DM MrBooks36 for help.")
+    try:
+        custom_path = txt.get().strip()
+        saves_path = custom_path if custom_path else f"C:/Users/{getlogin()}/AppData/Roaming/.minecraft/saves"
+        world_path = find_world(saves_path)
+        if not world_path:
+            return
+        
+        save_config(custom_path) if custom_path else None
+        
+        datapack_path = path.join(world_path, 'datapacks', 'Infinite-Parkour-datapack')
+        old_datapack_path = path.join(world_path, 'datapacks', 'Infinite-Parkour')
+        
+        remove_old_datapack(old_datapack_path, True)
+        unlock_git_files(datapack_path)
+        remove_old_datapack(datapack_path, False)
+        
+        chdir(path.dirname(datapack_path))
+        system(f'git clone https://github.com/Big-Con-Gaming/Infinite-Parkour-datapack')
+        
+        chdir(datapack_path)
+        system(f'{datapack_path}/autobuild.bat')
+        shell = Dispatch("WScript.Shell")
+        system(f"sleep 1")
+        shell.AppActivate("powershell")
+        shell.SendKeys('^c')
+        system(f"sleep 1")
+        shell.SendKeys('y')
+        messagebox.showinfo("Done", 'Update complete!')
+    except Exception as e:
+        messagebox.showerror('Error', f"{e}\nAn error occurred. Contact MrBooks36 for help.")
+        print(e)
 
-def reset():
-  #reset config
-  if path.exists('config.json'):
-   remove('config.json')
-  txt.delete(0, END)
+def reset_config():
+    if path.exists('config.json'):
+        remove('config.json')
+    txt.delete(0, END)
 
-# Execute Tkinter
-btn = Button(root, text = "Run", fg = "black", command=run)
-btn.grid(column=1, row=0)
-btn = Button(root, text = "Help", fg = "black", command=help)
-btn.grid(column=1, row=2)
+# GUI Setup
+root = Tk()
+root.title("Packupdater")
+root.geometry('190x50')
+root.resizable(False, False)
 
-lbl = Label(root, text = "Custom Path")
-lbl.grid(column=2, row=0)
+Label(root, text="Custom Path").grid(column=2, row=0)
 
-btn = Button(root, text = "Reset Config", fg = "black", command=reset)
-btn.grid(column=2, row=2)
+btn_run = Button(root, text="Run", command=run)
+btn_run.grid(column=1, row=0)
+
+btn_help = Button(root, text="Help", command=lambda: copy_to_clipboard('https://discord.com/users/1327055692179177494'))
+btn_help.grid(column=1, row=2)
+
+btn_reset = Button(root, text="Reset Config", command=reset_config)
+btn_reset.grid(column=2, row=2)
+
+# Entry for custom path
 txt = Entry(root, width=11)
-txt.grid(column=3, row =0)
-if path.exists('config.json'):
- with open('config.json', 'r') as file:
-    data = load(file)
-    data = data['data']
-    txt.insert(0, data)
-root.resizable(width=False, height=False)
+txt.grid(column=3, row=0)
+txt.insert(0, load_config())
+
+check_git()
 root.mainloop()
