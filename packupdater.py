@@ -1,16 +1,31 @@
 from tkinter import Tk, Button, Entry, Label, messagebox, END
 from os import getlogin, path, chmod, chdir, listdir, system, walk, remove
-from shutil import rmtree
+from shutil import rmtree, which
 from fnmatch import fnmatch
 from json import dump, load
 from win32com.client import Dispatch
+from time import sleep
 
 def check_git():
-    try:
-        system('git')
-    except:
-        messagebox.showerror('Error', "Install Git before running this program!")
-        exit()
+    if  which('git'):
+      return
+    else:
+        print("Install Git before running this program!")
+        def install():
+            chdir(f'C:/Users/{getlogin()}/Downloads')
+            system('winget install --id Git.Git -e --source winget')
+            messagebox.showinfo("Done", 'Install complete!')
+            exit()
+        root = Tk()
+        root.title("Packupdater")
+        root.geometry('95x50')
+        root.resizable(False, False)
+        Label(root, text="Install Git to use").grid(column=0, row=0)
+        btn_run = Button(root, text="Auto install ", command=install)
+        btn_run.grid(column=0, row=1)
+        root.mainloop()
+
+
 
 def copy_to_clipboard(url):
     root.clipboard_clear()
@@ -53,6 +68,7 @@ def unlock_git_files(datapack_path):
         chdir('C:/')
     else:
         print("No Git files to unlock.")
+        chdir('C:/')
 
 def run():
     try:
@@ -77,10 +93,10 @@ def run():
         chdir(datapack_path)
         system(f'{datapack_path}/autobuild.bat')
         shell = Dispatch("WScript.Shell")
-        system(f"sleep 1")
+        sleep(1)
         shell.AppActivate("powershell")
         shell.SendKeys('^c')
-        system(f"sleep 1")
+        sleep(1)
         shell.SendKeys('y')
         messagebox.showinfo("Done", 'Update complete!')
     except Exception as e:
@@ -93,6 +109,7 @@ def reset_config():
     txt.delete(0, END)
 
 # GUI Setup
+check_git()
 root = Tk()
 root.title("Packupdater")
 root.geometry('190x50')
@@ -114,5 +131,4 @@ txt = Entry(root, width=11)
 txt.grid(column=3, row=0)
 txt.insert(0, load_config())
 
-check_git()
 root.mainloop()
