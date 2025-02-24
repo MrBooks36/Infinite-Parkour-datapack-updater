@@ -3,8 +3,6 @@ from os import getlogin, path, chmod, chdir, listdir, system, walk, remove
 from shutil import rmtree, which
 from fnmatch import fnmatch
 from json import dump, load
-from time import sleep
-from subprocess import Popen
 
 def check_git():
     if  which('git'):
@@ -91,7 +89,7 @@ def run():
         system(f'git clone https://github.com/Big-Con-Gaming/Infinite-Parkour-datapack')
         
         chdir(datapack_path)
-        system(f'{datapack_path}/autobuild.bat')
+        system(f'{datapack_path}/build.bat')
 
         messagebox.showinfo("Done", 'Update complete!')
     except Exception as e:
