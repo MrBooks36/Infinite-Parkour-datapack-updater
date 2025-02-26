@@ -43,6 +43,7 @@ def save_config(custom_path):
         dump({"data": custom_path}, f, ensure_ascii=False, indent=4)
 
 def load_config():
+    chdir(path.dirname(path.abspath(__file__)))
     if path.exists('config.json'):
         with open('config.json', 'r') as file:
             return load(file).get('data', '')
@@ -97,6 +98,7 @@ def run():
         print(e)
 
 def reset_config():
+    chdir(path.dirname(path.abspath(__file__)))
     if path.exists('config.json'):
         remove('config.json')
     txt.delete(0, END)
