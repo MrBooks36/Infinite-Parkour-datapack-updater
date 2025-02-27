@@ -91,7 +91,6 @@ def run():
         
         chdir(datapack_path)
         system(f'{datapack_path}/build.bat')
-
         messagebox.showinfo("Done", 'Update complete!')
     except Exception as e:
         messagebox.showerror('Error', f"{e}\nAn error occurred. Contact MrBooks36 for help.")
