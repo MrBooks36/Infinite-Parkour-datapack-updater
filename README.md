@@ -1,5 +1,5 @@
 # Infinite Parkour Datapack Installer
-An updater for the Infinite Parkour Datapack 
+An updater for the Infinite Parkour Datapack. This is required to play any versions of Infinite Parkour past V0.1.2.
 
 # Install Instructions 
 Windows only. *sorry macOS you are NOT a work in progress*
