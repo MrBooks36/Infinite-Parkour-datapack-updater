@@ -66,15 +66,18 @@ def remove_old_datapack(datapack_path, old):
 
 def unlock_git_files(datapack_path):
     git_pack_path = path.join(datapack_path, '.git', 'objects', 'pack')
-    if path.exists(git_pack_path):
+    try:
+     if path.exists(git_pack_path):
         chdir(git_pack_path)
         for file in listdir(git_pack_path):
             chmod(file, 0o777)
         logging.debug("Unlocked Git files.")
         chdir('C:/')
-    else:
+     else:
         logging.debug("No Git files to unlock.")
         chdir('C:/')
+    except Exception as e:
+       logging.debug(e)
 
 def run():
     logging.debug("starting updater")
