@@ -2,7 +2,7 @@
 An updater for the Infinite Parkour Datapack. This is required to play any versions of Infinite Parkour past V0.1.2.
 
 # Install Instructions 
-Windows only. *sorry macOS you are NOT a work in progress*
+Windows only. *sorry macOS you are somewhat a work in progress, need a macOS user to help*
 
 only download the EXE
 
@@ -15,5 +15,7 @@ you will need to have
 If you use the normal .minecraft folder, you don't need to do anything.
 
 If you use a different location, put the path to the folder in the 'custom path' box. It will remember your settings.  (note. not the world folder, the Minecraft folder)
+
+If you have any problems press the DEBUG button and send the contents of the log file to me [here](https://discord.com/users/1327055692179177494)
 
 # Then run it to update to the latest version 
