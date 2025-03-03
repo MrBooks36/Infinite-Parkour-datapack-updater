@@ -29,7 +29,7 @@ def check_git():
 
 
 
-def copy_to_clipboard(url):
+def copy(url):
     root.clipboard_clear()
     root.clipboard_append(url)
     messagebox.showinfo("Copied", 'URL copied to Clipboard')
@@ -102,7 +102,8 @@ def run():
         messagebox.showinfo("Done", 'Update complete!')
         logging.debug("update done")
     except Exception as e:
-        messagebox.showerror('Error', f"{e}\nAn error occurred. Contact MrBooks36 for help.")
+        messagebox.showerror('Error', f"{e}\nAn error occurred. Contact MrBooks36 for help. Error copied to clipboard")
+        copy(e)
         logging.debug(e)
 
 def reset_config():
@@ -158,7 +159,7 @@ Label(root, text="Custom Path").grid(column=2, row=0)
 btn_run = Button(root, text="Run", command=run)
 btn_run.grid(column=1, row=0)
 
-btn_help = Button(root, text="Help", command=lambda: copy_to_clipboard('https://discord.com/users/1327055692179177494'))
+btn_help = Button(root, text="Help", command=lambda: copy('https://discord.com/users/1327055692179177494'))
 btn_help.grid(column=1, row=2)
 
 btn_reset = Button(root, text="Reset Config", command=reset_config)
