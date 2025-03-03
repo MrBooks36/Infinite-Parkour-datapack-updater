@@ -116,9 +116,7 @@ def debug():
      custom_path = txt.get().strip()
      saves_path = custom_path if custom_path else f"C:/Users/{getlogin()}/AppData/Roaming/.minecraft/saves"
      world_path = find_world(saves_path)
-     if world_path == None:
-         logging.debug("cannot find world")
-     else:
+     if world_path != None:
          datapack_path = path.join(world_path, 'datapacks', 'Infinite-Parkour-datapack')
          old_datapack_path = path.join(world_path, 'datapacks', 'Infinite-Parkour')
          if old_datapack_path and path.exists(old_datapack_path):
