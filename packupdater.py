@@ -149,12 +149,14 @@ def debug():
         logging.debug(e)
         logging.debug('done')
         messagebox.showerror('Error', f"{e}\nAn error occurred")
-
+def update():
+   system('START updaterinstaller.exe')
+   exit()
 # GUI Setup
 check_git()
 root = Tk()
 root.title("Packupdater")
-root.geometry('190x50')
+root.geometry('190x80')
 root.resizable(False, False)
 
 Label(root, text="Custom Path").grid(column=2, row=0)
@@ -167,8 +169,12 @@ btn_help.grid(column=1, row=2)
 
 btn_reset = Button(root, text="Reset Config", command=reset_config)
 btn_reset.grid(column=2, row=2)
+
 btn_reset = Button(root, text="DEBUG", command=debug)
 btn_reset.grid(column=3, row=2)
+
+btn_reset = Button(root, text="Update", command=update)
+btn_reset.grid(column=3, row=3)
 
 # Entry for custom path
 txt = Entry(root, width=11)
