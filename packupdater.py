@@ -65,7 +65,7 @@ def remove_old_datapack(datapack_path, old):
         messagebox.showwarning('Warning', "Old datapack not found.")
 
 def unlock_git_files(datapack_path):
-    git_pack_path = path.join(datapack_path, '.git')
+    git_pack_path = path.join(datapack_path, '.git', 'objects', 'pack')
     try:
         if path.exists(git_pack_path):
             chdir(git_pack_path)
@@ -93,9 +93,8 @@ def run():
         
         datapack_path = path.join(world_path, 'datapacks', 'Infinite-Parkour-datapack')
         old_datapack_path = path.join(world_path, 'datapacks', 'Infinite-Parkour')
-        
-        remove_old_datapack(old_datapack_path, True)
         unlock_git_files(datapack_path)
+        remove_old_datapack(old_datapack_path, True)
         remove_old_datapack(datapack_path, False)
         
         chdir(path.dirname(datapack_path))
