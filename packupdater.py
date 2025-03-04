@@ -4,30 +4,31 @@ from shutil import rmtree, which
 from fnmatch import fnmatch
 from json import dump, load
 import logging
-if path.exists('log.log'):
- remove('log.log')
-logging.basicConfig(filename='log.log', level=logging.DEBUG)
+
+# Setup logging
+LOG_FILENAME = 'log.log'
+if path.exists(LOG_FILENAME):
+    remove(LOG_FILENAME)
+logging.basicConfig(filename=LOG_FILENAME, level=logging.DEBUG)
 
 def check_git():
-    if  which('git'):
-      return
+    if which('git'):
+        return
     else:
         logging.debug("Install Git before running this program!")
         def install():
-            chdir(f'C:/Users/{getlogin()}/Downloads')
+            chdir(f'C:/ProgramData/Microsoft/Windows/Start Menu/Programs')
             system('winget install --id Git.Git -e --source winget')
             messagebox.showinfo("Done", 'Install complete!')
             exit()
         root = Tk()
         root.title("Packupdater")
-        root.geometry('95x50')
+        root.geometry('250x100')
         root.resizable(False, False)
         Label(root, text="Install Git to use").grid(column=0, row=0)
-        btn_run = Button(root, text="Auto install ", command=install)
+        btn_run = Button(root, text="Auto install", command=install)
         btn_run.grid(column=0, row=1)
         root.mainloop()
-
-
 
 def copy(url):
     root.clipboard_clear()
@@ -52,8 +53,8 @@ def load_config():
     chdir(path.dirname(path.abspath(__file__)))
     if path.exists('config.json'):
         with open('config.json', 'r') as file:
+            logging.debug("config loaded")
             return load(file).get('data', '')
-        logging.debug("config loaded")
     return ''
 
 def remove_old_datapack(datapack_path, old):
@@ -67,17 +68,17 @@ def remove_old_datapack(datapack_path, old):
 def unlock_git_files(datapack_path):
     git_pack_path = path.join(datapack_path, '.git')
     try:
-     if path.exists(git_pack_path):
-        chdir(git_pack_path)
-        for file in listdir(git_pack_path):
-            chmod(file, 0o777)
-        logging.debug("Unlocked Git files.")
-        chdir('C:/')
-     else:
-        logging.debug("No Git files to unlock.")
-        chdir('C:/')
+        if path.exists(git_pack_path):
+            chdir(git_pack_path)
+            for file in listdir(git_pack_path):
+                chmod(file, 0o777)
+            logging.debug("Unlocked Git files.")
+            chdir('C:/')
+        else:
+            logging.debug("No Git files to unlock.")
+            chdir('C:/')
     except Exception as e:
-       logging.debug(e)
+        logging.debug(e)
 
 def run():
     logging.debug("starting updater")
@@ -88,7 +89,8 @@ def run():
         if not world_path:
             return
         
-        save_config(custom_path) if custom_path else None
+        if custom_path:
+            save_config(custom_path)
         
         datapack_path = path.join(world_path, 'datapacks', 'Infinite-Parkour-datapack')
         old_datapack_path = path.join(world_path, 'datapacks', 'Infinite-Parkour')
@@ -98,10 +100,10 @@ def run():
         remove_old_datapack(datapack_path, False)
         
         chdir(path.dirname(datapack_path))
-        system(f'git clone https://github.com/Big-Con-Gaming/Infinite-Parkour-datapack')
+        system('git clone https://github.com/Big-Con-Gaming/Infinite-Parkour-datapack')
         
         chdir(datapack_path)
-        system(f'{datapack_path}/build.bat')
+        system(f'{datapack_path}/build.bat') 
         messagebox.showinfo("Done", 'Update complete!')
         logging.debug("update done")
     except Exception as e:
@@ -114,44 +116,32 @@ def reset_config():
     if path.exists('config.json'):
         remove('config.json')
     txt.delete(0, END)
+
 def debug():
     try:
-     logging.debug('starting debug')
-     custom_path = txt.get().strip()
-     saves_path = custom_path if custom_path else f"C:/Users/{getlogin()}/AppData/Roaming/.minecraft/saves"
-     world_path = find_world(saves_path)
-     if world_path != None:
-         datapack_path = path.join(world_path, 'datapacks', 'Infinite-Parkour-datapack')
-         old_datapack_path = path.join(world_path, 'datapacks', 'Infinite-Parkour')
-         if old_datapack_path and path.exists(old_datapack_path):
-          logging.debug('PMC pack true')
-         else:
-          logging.debug('PMC pack false')
-         if datapack_path and path.exists(datapack_path):
-          logging.debug('new pack true')
-         else:
-            logging.debug('new pack false')
-     if custom_path and path.exists(custom_path):
-        logging.debug('custom path true')
-     else:
-          logging.debug('custom path false')
-     if saves_path and path.exists(saves_path):
-        logging.debug('saves path true')
-     else:
-        logging.debug('saves path false')
-     if world_path and path.exists(world_path):
-        logging.debug('world path true')
-     else:
-        logging.debug('world path false')
-     logging.debug('done')
-     messagebox.showinfo("Done", 'Debug complete!')
+        logging.debug('starting debug')
+        custom_path = txt.get().strip()
+        saves_path = custom_path if custom_path else f"C:/Users/{getlogin()}/AppData/Roaming/.minecraft/saves"
+        world_path = find_world(saves_path)
+        if world_path != None:
+            datapack_path = path.join(world_path, 'datapacks', 'Infinite-Parkour-datapack')
+            old_datapack_path = path.join(world_path, 'datapacks', 'Infinite-Parkour')
+            logging.debug('PMC pack ' + ('true' if old_datapack_path and path.exists(old_datapack_path) else 'false'))
+            logging.debug('new pack ' + ('true' if datapack_path and path.exists(datapack_path) else 'false'))
+        logging.debug('custom path ' + ('true' if custom_path and path.exists(custom_path) else 'false'))
+        logging.debug('saves path ' + ('true' if saves_path and path.exists(saves_path) else 'false'))
+        logging.debug('world path ' + ('true' if world_path and path.exists(world_path) else 'false'))
+        logging.debug('done')
+        messagebox.showinfo("Done", 'Debug complete!')
     except Exception as e:
         logging.debug(e)
         logging.debug('done')
         messagebox.showerror('Error', f"{e}\nAn error occurred")
+
 def update():
-   system('START updaterinstaller.exe')
+   system('START updaterinstaller.exe') 
    exit()
+
 # GUI Setup
 check_git()
 root = Tk()
