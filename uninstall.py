@@ -2,7 +2,7 @@ from os import path, chdir, listdir, chmod, system, getlogin
 from shutil import rmtree
 chdir(path.dirname(path.abspath(__file__)))
 def unlock_git_files(path):
-    git_pack_path = path.join(path, '.git')
+    git_pack_path = f"{path}/.git"
     try:
         if path.exists(git_pack_path):
             chdir(git_pack_path)
