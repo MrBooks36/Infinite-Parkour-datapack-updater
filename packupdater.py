@@ -4,7 +4,7 @@ from shutil import rmtree, which
 from fnmatch import fnmatch
 from json import dump, load
 import logging
-
+chdir(path.dirname(path.abspath(__file__)))
 # Setup logging
 LOG_FILENAME = 'log.log'
 if path.exists(LOG_FILENAME):
