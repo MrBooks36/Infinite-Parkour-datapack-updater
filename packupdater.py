@@ -12,8 +12,7 @@ if path.exists(LOG_FILENAME):
 logging.basicConfig(filename=LOG_FILENAME, level=logging.DEBUG)
 
 def check_git():
-    if which('git'):
-        return
+    if which('git'): return
     else:
         logging.debug("Install Git before running this program!")
         def install():
