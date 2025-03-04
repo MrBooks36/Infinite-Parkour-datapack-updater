@@ -70,6 +70,7 @@ def unlock_git_files(datapack_path):
         if path.exists(git_pack_path):
             chdir(git_pack_path)
             for file in listdir(git_pack_path):
+                logging.debug(file)
                 chmod(file, 0o777)
             logging.debug("Unlocked Git files.")
             chdir('C:/')
