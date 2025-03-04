@@ -3,18 +3,20 @@ from os import getlogin, path, chmod, chdir, listdir, system, walk, remove
 from shutil import rmtree, which
 from fnmatch import fnmatch
 from json import dump, load
-import logging
 chdir(path.dirname(path.abspath(__file__)))
 # Setup logging
 LOG_FILENAME = 'log.log'
 if path.exists(LOG_FILENAME):
-    remove(LOG_FILENAME)
-logging.basicConfig(filename=LOG_FILENAME, level=logging.DEBUG)
+    remove(LOG_FILENAME) 
+def log(text):
+    with open(LOG_FILENAME, 'w') as file:
+     # Write content to the file
+     file.write(f'{text}')
 
 def check_git():
     if which('git'): return
     else:
-        logging.debug("Install Git before running this program!")
+        log("Install Git before running this program!")
         def install():
             chdir(f'C:/ProgramData/Microsoft/Windows/Start Menu/Programs')
             system('winget install --id Git.Git -e --source winget')
@@ -40,28 +42,28 @@ def find_world(root_dir):
             if fnmatch(dir_name, '*Infinite-Parkour*'):
                 return path.join(root, dir_name)
     messagebox.showerror('Error', "Cannot find world. Check your path or ensure it exists.")
-    logging.debug("Cannot find world")
+    log("Cannot find world")
     return None
 
 def save_config(custom_path):
     with open('config.json', 'w', encoding='utf-8') as f:
         dump({"data": custom_path}, f, ensure_ascii=False, indent=4)
-        logging.debug("config saved")
+        log("config saved")
 
 def load_config():
     chdir(path.dirname(path.abspath(__file__)))
     if path.exists('config.json'):
         with open('config.json', 'r') as file:
-            logging.debug("config loaded")
+            log("config loaded")
             return load(file).get('data', '')
     return ''
 
 def remove_old_datapack(datapack_path, old):
     if path.exists(datapack_path):
         rmtree(datapack_path)
-        logging.debug("Old datapack deleted.")
+        log("Old datapack deleted.")
     elif old != True:
-        logging.debug("Old datapack not found.")
+        log("Old datapack not found.")
         messagebox.showwarning('Warning', "Old datapack not found.")
 
 def unlock_git_files(datapack_path):
@@ -70,18 +72,18 @@ def unlock_git_files(datapack_path):
         if path.exists(git_pack_path):
             chdir(git_pack_path)
             for file in listdir(git_pack_path):
-                logging.debug(file)
+                log(file)
                 chmod(file, 0o777)
-            logging.debug("Unlocked Git files.")
+            log("Unlocked Git files.")
             chdir('C:/')
         else:
-            logging.debug("No Git files to unlock.")
+            log("No Git files to unlock.")
             chdir('C:/')
     except Exception as e:
-        logging.debug(e)
+        log(e)
 
 def run():
-    logging.debug("starting updater")
+    log("starting updater")
     try:
         custom_path = txt.get().strip()
         saves_path = custom_path if custom_path else f"C:/Users/{getlogin()}/AppData/Roaming/.minecraft/saves"
@@ -104,11 +106,11 @@ def run():
         chdir(datapack_path)
         system(f'{datapack_path}/build.bat') 
         messagebox.showinfo("Done", 'Update complete!')
-        logging.debug("update done")
+        log("update done")
     except Exception as e:
         messagebox.showerror('Error', f"{e}\nAn error occurred. Contact MrBooks36 for help. Error copied to clipboard")
         copy(e)
-        logging.debug(e)
+        log(e)
 
 def reset_config():
     chdir(path.dirname(path.abspath(__file__)))
@@ -118,23 +120,23 @@ def reset_config():
 
 def debug():
     try:
-        logging.debug('starting debug')
+        log('starting debug')
         custom_path = txt.get().strip()
         saves_path = custom_path if custom_path else f"C:/Users/{getlogin()}/AppData/Roaming/.minecraft/saves"
         world_path = find_world(saves_path)
         if world_path != None:
             datapack_path = path.join(world_path, 'datapacks', 'Infinite-Parkour-datapack')
             old_datapack_path = path.join(world_path, 'datapacks', 'Infinite-Parkour')
-            logging.debug('PMC pack ' + ('true' if old_datapack_path and path.exists(old_datapack_path) else 'false'))
-            logging.debug('new pack ' + ('true' if datapack_path and path.exists(datapack_path) else 'false'))
-        logging.debug('custom path ' + ('true' if custom_path and path.exists(custom_path) else 'false'))
-        logging.debug('saves path ' + ('true' if saves_path and path.exists(saves_path) else 'false'))
-        logging.debug('world path ' + ('true' if world_path and path.exists(world_path) else 'false'))
-        logging.debug('done')
+            log('PMC pack ' + ('true' if old_datapack_path and path.exists(old_datapack_path) else 'false'))
+            log('new pack ' + ('true' if datapack_path and path.exists(datapack_path) else 'false'))
+        log('custom path ' + ('true' if custom_path and path.exists(custom_path) else 'false'))
+        log('saves path ' + ('true' if saves_path and path.exists(saves_path) else 'false'))
+        log('world path ' + ('true' if world_path and path.exists(world_path) else 'false'))
+        log('done')
         messagebox.showinfo("Done", 'Debug complete!')
     except Exception as e:
-        logging.debug(e)
-        logging.debug('done')
+        log(e)
+        log('done')
         messagebox.showerror('Error', f"{e}\nAn error occurred")
 
 def update():
