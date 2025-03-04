@@ -8,10 +8,9 @@ chdir(path.dirname(path.abspath(__file__)))
 LOG_FILENAME = 'log.log'
 if path.exists(LOG_FILENAME):
     remove(LOG_FILENAME) 
+file = open(LOG_FILENAME, 'w')
 def log(text):
-    with open(LOG_FILENAME, 'w') as file:
-     # Write content to the file
-     file.write(f'{text}')
+  file.write(f'{text}\n')
 
 def check_git():
     if which('git'): return
@@ -67,20 +66,7 @@ def remove_old_datapack(datapack_path, old):
         messagebox.showwarning('Warning', "Old datapack not found.")
 
 def unlock_git_files(datapack_path):
-    git_pack_path = path.join(datapack_path, '.git')
-    try:
-        if path.exists(git_pack_path):
-            chdir(git_pack_path)
-            for file in listdir(git_pack_path):
-                log(file)
-                chmod(file, 0o777)
-            log("Unlocked Git files.")
-            chdir('C:/')
-        else:
-            log("No Git files to unlock.")
-            chdir('C:/')
-    except Exception as e:
-        log(e)
+        log(system('rd /s /q ".git"'))
 
 def run():
     log("starting updater")
@@ -104,7 +90,7 @@ def run():
         system('git clone https://github.com/Big-Con-Gaming/Infinite-Parkour-datapack')
         
         chdir(datapack_path)
-        system(f'{datapack_path}/build.bat') 
+        log(system(f'{datapack_path}/build.bat')) 
         messagebox.showinfo("Done", 'Update complete!')
         log("update done")
     except Exception as e:
