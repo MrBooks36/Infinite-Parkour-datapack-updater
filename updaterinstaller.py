@@ -16,7 +16,7 @@ else:
  system(f'git clone https://github.com/MrBooks36/Infinite-Parkour-datapack-updater')
  path = f'C:/Users/{getlogin()}/AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Infinite-Parkour-datapack-updater.lnk'
  target = f"C:/Users/{getlogin()}/Documents/Infinite-Parkour-datapack-updater/packupdater.exe"
- icon = f"C:/Users/{getlogin()}/Documents/Infinite-Parkour-datapack-updater/pack.png"
+ icon = f"C:/Users/{getlogin()}/Documents/Infinite-Parkour-datapack-updater/pack.ico"
  shell = win32com.client.Dispatch("WScript.Shell")
  shortcut = shell.CreateShortCut(path)
  shortcut.Targetpath = target
