@@ -57,16 +57,11 @@ def load_config():
             return load(file).get('data', '')
     return ''
 
-def remove_old_datapack(datapack_path, old):
+def remove_old_datapack(datapack_path):
     if path.exists(datapack_path):
         rmtree(datapack_path)
-        log("Old datapack deleted.")
-    elif old != True:
-        log("Old datapack not found.")
-        messagebox.showwarning('Warning', "Old datapack not found.")
+        log("PMC datapack deleted.")
 
-def unlock_git_files(datapack_path):
-        log(system('rd /s /q ".git"'))
 
 def run():
     log("starting updater")
@@ -82,13 +77,13 @@ def run():
         
         datapack_path = path.join(world_path, 'datapacks', 'Infinite-Parkour-datapack')
         old_datapack_path = path.join(world_path, 'datapacks', 'Infinite-Parkour')
-        unlock_git_files(datapack_path)
-        remove_old_datapack(old_datapack_path, True)
-        remove_old_datapack(datapack_path, False)
-        
-        chdir(path.dirname(datapack_path))
-        system('git clone https://github.com/Big-Con-Gaming/Infinite-Parkour-datapack')
-        
+        if not path.exists(datapack_path):
+         remove_old_datapack(old_datapack_path)
+         chdir(path.dirname(datapack_path))
+         system('git clone https://github.com/Big-Con-Gaming/Infinite-Parkour-datapack')
+        else:
+         chdir(datapack_path)
+         system('git pull https://github.com/Big-Con-Gaming/Infinite-Parkour-datapack')
         chdir(datapack_path)
         log(system(f'{datapack_path}/build.bat')) 
         messagebox.showinfo("Done", 'Update complete!')
