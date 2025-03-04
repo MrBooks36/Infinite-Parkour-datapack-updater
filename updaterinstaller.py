@@ -1,9 +1,9 @@
-from os import system, chdir, getlogin, path, listdir, chmod
-from shutil import which, rmtree
+from os import system, chdir, getlogin, path
+from shutil import which
+
 if  not which('git'): 
         system('winget install --id Git.Git -e --source winget')
-        print('done')
-        exit()
+        print('git install done')
 print(getlogin())
 if path.exists(f'C:/Users/{getlogin()}/Documents/Infinite-Parkour-datapack-updater'):
  print('update old install')

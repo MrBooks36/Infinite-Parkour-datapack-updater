@@ -3,7 +3,7 @@ from os import getlogin, path, chmod, chdir, listdir, system, walk, remove
 from shutil import rmtree, which
 from fnmatch import fnmatch
 from json import dump, load
-import logging 
+import logging
 if path.exists('log.log'):
  remove('log.log')
 logging.basicConfig(filename='log.log', level=logging.DEBUG)
