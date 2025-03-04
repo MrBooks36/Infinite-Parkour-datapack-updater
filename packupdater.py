@@ -138,7 +138,8 @@ def debug():
         messagebox.showerror('Error', f"{e}\nAn error occurred")
 
 def update():
-   system('START updaterinstaller.exe') 
+   chdir(path.dirname(path.abspath(__file__)))
+   system(f'START updaterinstaller.exe') 
    exit()
 
 # GUI Setup
