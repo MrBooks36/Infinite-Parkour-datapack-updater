@@ -65,7 +65,7 @@ def remove_old_datapack(datapack_path, old):
         messagebox.showwarning('Warning', "Old datapack not found.")
 
 def unlock_git_files(datapack_path):
-    git_pack_path = path.join(datapack_path, '.git', 'objects', 'pack')
+    git_pack_path = path.join(datapack_path, '.git', 'objects')
     try:
         if path.exists(git_pack_path):
             chdir(git_pack_path)
