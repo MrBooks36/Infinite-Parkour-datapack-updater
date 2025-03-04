@@ -65,7 +65,7 @@ def remove_old_datapack(datapack_path, old):
         messagebox.showwarning('Warning', "Old datapack not found.")
 
 def unlock_git_files(datapack_path):
-    git_pack_path = path.join(datapack_path, '.git', 'objects')
+    git_pack_path = path.join(datapack_path, '.git')
     try:
         if path.exists(git_pack_path):
             chdir(git_pack_path)
@@ -138,7 +138,7 @@ def debug():
 
 def update():
    chdir(path.dirname(path.abspath(__file__)))
-   system(f'START updaterinstaller.exe') 
+   system(f'START {path.dirname(path.abspath(__file__))}/updaterinstaller.exe') 
    exit()
 
 # GUI Setup
