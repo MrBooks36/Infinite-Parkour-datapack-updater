@@ -16,5 +16,6 @@ def unlock_git_files(datapack_path):
     except Exception as e:
         print(e)
 unlock_git_files(path.dirname(path.abspath(__file__)))
+print(path.dirname(path.abspath(__file__)))
 rmtree(chdir(path.dirname(path.abspath(__file__))))
 system(f'del C:/Users/{getlogin()}/AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Infinite-Parkour-datapack-updater.lnk')
