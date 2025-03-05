@@ -1,21 +1,15 @@
 from tkinter import Tk, Button, Entry, Label, messagebox, END
-from os import getlogin, path, chmod, chdir, listdir, system, walk, remove
+from os import getprintin, path, chmod, chdir, listdir, system, walk, remove
 from shutil import rmtree, which
 from fnmatch import fnmatch
 from json import dump, load
 chdir(path.dirname(path.abspath(__file__)))
-# Setup logging
-LOG_FILENAME = 'log.log'
-if path.exists(LOG_FILENAME):
-    remove(LOG_FILENAME) 
-file = open(LOG_FILENAME, 'w')
-def log(text):
-  file.write(f'{text}\n')
+# Setup printging
 
 def check_git():
     if which('git'): return
     else:
-        log("Install Git before running this program!")
+        print("Install Git before running this program!")
         def install():
             chdir(f'C:/ProgramData/Microsoft/Windows/Start Menu/Programs')
             system('winget install --id Git.Git -e --source winget')
@@ -41,33 +35,33 @@ def find_world(root_dir):
             if fnmatch(dir_name, '*Infinite-Parkour*'):
                 return path.join(root, dir_name)
     messagebox.showerror('Error', "Cannot find world. Check your path or ensure it exists.")
-    log("Cannot find world")
+    print("Cannot find world")
     return None
 
 def save_config(custom_path):
     with open('config.json', 'w', encoding='utf-8') as f:
         dump({"data": custom_path}, f, ensure_ascii=False, indent=4)
-        log("config saved")
+        print("config saved")
 
 def load_config():
     chdir(path.dirname(path.abspath(__file__)))
     if path.exists('config.json'):
         with open('config.json', 'r') as file:
-            log("config loaded")
+            print("config loaded")
             return load(file).get('data', '')
     return ''
 
 def remove_old_datapack(datapack_path):
     if path.exists(datapack_path):
         rmtree(datapack_path)
-        log("PMC datapack deleted.")
+        print("PMC datapack deleted.")
 
 
 def run():
-    log("starting updater")
+    print("starting updater")
     try:
         custom_path = txt.get().strip()
-        saves_path = custom_path if custom_path else f"C:/Users/{getlogin()}/AppData/Roaming/.minecraft/saves"
+        saves_path = custom_path if custom_path else f"C:/Users/{getprintin()}/AppData/Roaming/.minecraft/saves"
         world_path = find_world(saves_path)
         if not world_path:
             return
@@ -85,13 +79,13 @@ def run():
          chdir(datapack_path)
          system('git pull https://github.com/Big-Con-Gaming/Infinite-Parkour-datapack')
         chdir(datapack_path)
-        log(system(f'{datapack_path}/build.bat')) 
+        print(system(f'{datapack_path}/build.bat')) 
         messagebox.showinfo("Done", 'Update complete!')
-        log("update done")
+        print("update done")
     except Exception as e:
         messagebox.showerror('Error', f"{e}\nAn error occurred. Contact MrBooks36 for help. Error copied to clipboard")
         copy(e)
-        log(e)
+        print(e)
 
 def reset_config():
     chdir(path.dirname(path.abspath(__file__)))
@@ -101,28 +95,28 @@ def reset_config():
 
 def debug():
     try:
-        log('starting debug')
+        print('starting debug')
         custom_path = txt.get().strip()
-        saves_path = custom_path if custom_path else f"C:/Users/{getlogin()}/AppData/Roaming/.minecraft/saves"
+        saves_path = custom_path if custom_path else f"C:/Users/{getprintin()}/AppData/Roaming/.minecraft/saves"
         world_path = find_world(saves_path)
         if world_path != None:
             datapack_path = path.join(world_path, 'datapacks', 'Infinite-Parkour-datapack')
             old_datapack_path = path.join(world_path, 'datapacks', 'Infinite-Parkour')
-            log('PMC pack ' + ('true' if old_datapack_path and path.exists(old_datapack_path) else 'false'))
-            log('new pack ' + ('true' if datapack_path and path.exists(datapack_path) else 'false'))
-        log('custom path ' + ('true' if custom_path and path.exists(custom_path) else 'false'))
-        log('saves path ' + ('true' if saves_path and path.exists(saves_path) else 'false'))
-        log('world path ' + ('true' if world_path and path.exists(world_path) else 'false'))
-        log('done')
+            print('PMC pack ' + ('true' if old_datapack_path and path.exists(old_datapack_path) else 'false'))
+            print('new pack ' + ('true' if datapack_path and path.exists(datapack_path) else 'false'))
+        print('custom path ' + ('true' if custom_path and path.exists(custom_path) else 'false'))
+        print('saves path ' + ('true' if saves_path and path.exists(saves_path) else 'false'))
+        print('world path ' + ('true' if world_path and path.exists(world_path) else 'false'))
+        print('done')
         messagebox.showinfo("Done", 'Debug complete!')
     except Exception as e:
-        log(e)
-        log('done')
+        print(e)
+        print('done')
         messagebox.showerror('Error', f"{e}\nAn error occurred")
 
 def update():
    chdir(path.dirname(path.abspath(__file__)))
-   system(f'START {path.dirname(path.abspath(__file__))}/updaterinstaller.exe') 
+   system(f'START updaterinstaller.exe') 
    exit()
 
 # GUI Setup
