@@ -1,10 +1,10 @@
 from tkinter import Tk, Button, Entry, Label, messagebox, END
-from os import getprintin, path, chmod, chdir, listdir, system, walk, remove
+from os import getlogin, path, chdir, system, walk, remove
 from shutil import rmtree, which
 from fnmatch import fnmatch
 from json import dump, load
 chdir(path.dirname(path.abspath(__file__)))
-# Setup printging
+# Setup logging
 
 def check_git():
     if which('git'): return
@@ -61,7 +61,7 @@ def run():
     print("starting updater")
     try:
         custom_path = txt.get().strip()
-        saves_path = custom_path if custom_path else f"C:/Users/{getprintin()}/AppData/Roaming/.minecraft/saves"
+        saves_path = custom_path if custom_path else f"C:/Users/{getlogin()}/AppData/Roaming/.minecraft/saves"
         world_path = find_world(saves_path)
         if not world_path:
             return
@@ -97,7 +97,7 @@ def debug():
     try:
         print('starting debug')
         custom_path = txt.get().strip()
-        saves_path = custom_path if custom_path else f"C:/Users/{getprintin()}/AppData/Roaming/.minecraft/saves"
+        saves_path = custom_path if custom_path else f"C:/Users/{getlogin()}/AppData/Roaming/.minecraft/saves"
         world_path = find_world(saves_path)
         if world_path != None:
             datapack_path = path.join(world_path, 'datapacks', 'Infinite-Parkour-datapack')
