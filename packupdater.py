@@ -116,8 +116,9 @@ def debug():
 
 def update():
    chdir(f'C:/Users/{getlogin()}/Documents/Infinite-Parkour-datapack-updater')
-   system('updaterinstaller.exe') 
+   system('start cmd /c updaterinstaller.exe') 
    exit()
+
 
 # GUI Setup
 check_git()

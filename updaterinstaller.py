@@ -20,7 +20,7 @@ def start():
   chdir(f'C:/Users/{getlogin()}/Documents')
   system(f'git clone https://github.com/MrBooks36/Infinite-Parkour-datapack-updater')
  messagebox.showinfo('Done', 'Install complete!')
- return()
+ exit()
  
 btn_reset = Button(root, text="START", command=start)
 btn_reset.grid(column=0, row=1)

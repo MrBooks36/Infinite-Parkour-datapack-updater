@@ -16,5 +16,7 @@ move C:\Users\%username%\Documents\GitHub\Infinite-Parkour-datapack-updater\dist
 del C:\Users\%username%\Documents\GitHub\Infinite-Parkour-datapack-updater\updaterinstaller.spec
 rmdir /s /q C:\Users\%username%\Documents\GitHub\Infinite-Parkour-datapack-updater\dist
 rmdir /s /q C:\Users\%username%\Documents\GitHub\Infinite-Parkour-datapack-updater\build\packupdater\localpycs
+rmdir /s /q C:\Users\%username%\Documents\GitHub\Infinite-Parkour-datapack-updater\build\packupdater
+rmdir /s /q C:\Users\%username%\Documents\GitHub\Infinite-Parkour-datapack-updater\build
 rmdir /s /q C:\Users\%username%\Documents\GitHub\Infinite-Parkour-datapack-updater\build
 "C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\x86\signtool" sign /a /fd SHA256 C:\Users\%username%\Documents\GitHub\Infinite-Parkour-datapack-updater\packupdater.exe
