@@ -39,14 +39,14 @@ def find_world(root_dir):
     return None
 
 def save_config(custom_path):
-    with open('config.json', 'w', encoding='utf-8') as f:
+    with open(f'C:/Users/{getlogin()}/Documents/Infinite-Parkour-datapack-updater/parkourconfig.json', 'w', encoding='utf-8') as f:
         dump({"data": custom_path}, f, ensure_ascii=False, indent=4)
         print("config saved")
 
 def load_config():
     chdir(path.dirname(path.abspath(__file__)))
-    if path.exists('config.json'):
-        with open('config.json', 'r') as file:
+    if path.exists(f'C:/Users/{getlogin()}/Documents/parkourconfig.json'):
+        with open(f'C:/Users/{getlogin()}/Documents/parkourconfig.json', 'r') as file:
             print("config loaded")
             return load(file).get('data', '')
     return ''
@@ -83,14 +83,14 @@ def run():
         messagebox.showinfo("Done", 'Update complete!')
         print("update done")
     except Exception as e:
-        messagebox.showerror('Error', f"{e}\nAn error occurred. Contact MrBooks36 for help. Error copied to clipboard")
+        messagebox.showerror('Error', f"{e}/nAn error occurred. Contact MrBooks36 for help. Error copied to clipboard")
         copy(e)
         print(e)
 
 def reset_config():
     chdir(path.dirname(path.abspath(__file__)))
-    if path.exists('config.json'):
-        remove('config.json')
+    if path.exists(f'C:/Users/{getlogin()}/Documents/parkourconfig.json'):
+        remove(f'C:/Users/{getlogin()}/Documents/parkourconfig.json')
     txt.delete(0, END)
 
 def debug():
@@ -112,7 +112,7 @@ def debug():
     except Exception as e:
         print(e)
         print('done')
-        messagebox.showerror('Error', f"{e}\nAn error occurred")
+        messagebox.showerror('Error', f"{e}/nAn error occurred")
 
 def update():
    chdir(path.dirname(path.abspath(__file__)))

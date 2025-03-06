@@ -8,6 +8,7 @@ print(getlogin())
 if path.exists(f'C:/Users/{getlogin()}/Documents/Infinite-Parkour-datapack-updater'):
  print('update old install')
  chdir(f'C:/Users/{getlogin()}/Documents/Infinite-Parkour-datapack-updater')
+ system('git reset --hard HEAD')
  system('git pull https://github.com/MrBooks36/Infinite-Parkour-datapack-updater main')
 else:
  print('new install')
