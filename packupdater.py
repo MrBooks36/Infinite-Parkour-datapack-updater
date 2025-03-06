@@ -40,7 +40,7 @@ def find_world(root_dir):
     return None
 
 def save_config(custom_path):
-    with open(f'C:/Users/{getlogin()}/Documents/Infinite-Parkour-datapack-updater/parkourconfig.json', 'w', encoding='utf-8') as f:
+    with open(f'C:/Users/{getlogin()}/Documents/parkourconfig.json', 'w', encoding='utf-8') as f:
         dump({"data": custom_path}, f, ensure_ascii=False, indent=4)
         print("config saved")
 
