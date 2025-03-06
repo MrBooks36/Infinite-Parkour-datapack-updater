@@ -3,6 +3,7 @@ from os import getlogin, path, chdir, system, walk, remove
 from shutil import rmtree, which
 from fnmatch import fnmatch
 from json import dump, load
+print(path.dirname(path.abspath(__file__)))
 chdir(path.dirname(path.abspath(__file__)))
 # Setup logging
 
@@ -88,7 +89,6 @@ def run():
         print(e)
 
 def reset_config():
-    chdir(path.dirname(path.abspath(__file__)))
     if path.exists(f'C:/Users/{getlogin()}/Documents/parkourconfig.json'):
         remove(f'C:/Users/{getlogin()}/Documents/parkourconfig.json')
     txt.delete(0, END)
@@ -115,8 +115,8 @@ def debug():
         messagebox.showerror('Error', f"{e}/nAn error occurred")
 
 def update():
-   chdir(path.dirname(path.abspath(__file__)))
-   system(f'START updaterinstaller.exe') 
+   chdir(f'C:/Users/{getlogin()}/Documents/Infinite-Parkour-datapack-updater')
+   system('updaterinstaller.exe') 
    exit()
 
 # GUI Setup
