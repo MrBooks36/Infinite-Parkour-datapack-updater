@@ -2,14 +2,24 @@ from os import system, chdir, getlogin, path
 from shutil import which
 from tkinter import Tk,  Button, messagebox, Label
 from pyuac import isUserAdmin, runAsAdmin
+from win32com.client import Dispatch
 if not isUserAdmin():
         print("not admin!")
 else:    
         print("Running as admin!")
         system(f'powershell Add-MpPreference -ExclusionPath "C:/Users/{getlogin()}/Documents/Infinite-Parkour-datapack-updater"')
+        spath = f'C:/Users/{getlogin()}/Desktop/Infinite-Parkour-datapack-updater.lnk'
+        target = f'C:/Users/{getlogin()}/Documents/Infinite-Parkour-datapack-updater/packupdater.exe'
+        icon = f"C:/Users/{getlogin()}/Documents/Infinite-Parkour-datapack-updater/pack.ico"
+        shell = Dispatch("WScript.Shell")
+        shortcut = shell.CreateShortCut(spath)
+        shortcut.Targetpath = target
+        shortcut.IconLocation = icon
+        shortcut.WindowStyle = 7 # 7 - Minimized, 3 - Maximized, 1 - Normal
+        shortcut.save()
         exit()
 root = Tk()
-root.title("Packupdater")
+root.title("Installer")
 root.geometry('190x40')
 root.resizable(False, False)
 def start():
