@@ -75,10 +75,10 @@ def run():
         if not path.exists(datapack_path):
          remove_old_datapack(old_datapack_path)
          chdir(path.dirname(datapack_path))
-         system('git clone https://github.com/Big-Con-Gaming/Infinite-Parkour-datapack')
+         system('git clone https://github.com/Big-Con-Gaming/Infinite-Parkour-datapack --depth=1')
         else:
          chdir(datapack_path)
-         system('git pull https://github.com/Big-Con-Gaming/Infinite-Parkour-datapack')
+         system('git pull https://github.com/Big-Con-Gaming/Infinite-Parkour-datapack --depth=1')
         chdir(datapack_path)
         print(system(f'{datapack_path}/build.bat')) 
         messagebox.showinfo("Done", 'Update complete!')

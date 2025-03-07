@@ -1,6 +1,13 @@
 from os import system, chdir, getlogin, path
 from shutil import which
 from tkinter import Tk,  Button, messagebox, Label
+from pyuac import isUserAdmin, runAsAdmin
+if not isUserAdmin():
+        print("not admin!")
+else:    
+        print("Running as admin!")
+        system(f'powershell Add-MpPreference -ExclusionPath "C:/Users/{getlogin()}/Documents/Infinite-Parkour-datapack-updater"')
+        exit()
 root = Tk()
 root.title("Packupdater")
 root.geometry('190x40')
@@ -14,11 +21,13 @@ def start():
   print('update old install')
   chdir(f'C:/Users/{getlogin()}/Documents/Infinite-Parkour-datapack-updater')
   system('git reset --hard HEAD')
-  system('git pull https://github.com/MrBooks36/Infinite-Parkour-datapack-updater main')
+  system('git pull https://github.com/MrBooks36/Infinite-Parkour-datapack-updater --depth=1')
  else:
   print('new install')
   chdir(f'C:/Users/{getlogin()}/Documents')
-  system(f'git clone https://github.com/MrBooks36/Infinite-Parkour-datapack-updater')
+  system(f'git clone https://github.com/MrBooks36/Infinite-Parkour-datapack-updater --depth=1')
+  runAsAdmin()
+  
  messagebox.showinfo('Done', 'Install complete!')
  exit()
  
