@@ -28,7 +28,7 @@ def check_git():
 def copy(url):
     root.clipboard_clear()
     root.clipboard_append(url)
-    messagebox.showinfo("Copied", 'URL copied to Clipboard')
+    messagebox.showinfo("Copied", 'Copied to Clipboard')
 
 def find_world(root_dir):
     for root, dirs, _ in walk(root_dir):
