@@ -1,40 +1,25 @@
 from tkinter import Tk, Button, Entry, Label, messagebox, END
-from os import getlogin, path, chdir, system, walk, remove
-from shutil import rmtree, which
+from os import getlogin, system, walk, remove, makedirs
+from os.path import exists, join, dirname
+from shutil import rmtree
+from zipfile import ZipFile
+from sys import exit
 from fnmatch import fnmatch
 from json import dump, load
-print(path.dirname(path.abspath(__file__)))
-chdir(path.dirname(path.abspath(__file__)))
+from urllib.request import urlretrieve
 # Setup logging
 
-def check_git():
-    if which('git'): return
-    else:
-        print("Install Git before running this program!")
-        def install():
-            chdir(f'C:/ProgramData/Microsoft/Windows/Start Menu/Programs')
-            system('winget install --id Git.Git -e --source winget')
-            messagebox.showinfo("Done", 'Install complete!')
-            exit()
-        root = Tk()
-        root.title("Packupdater")
-        root.geometry('250x100')
-        root.resizable(False, False)
-        Label(root, text="Install Git to use").grid(column=0, row=0)
-        btn_run = Button(root, text="Auto install", command=install)
-        btn_run.grid(column=0, row=1)
-        root.mainloop()
-
-def copy(url):
+def copy(url, shutup=False):
     root.clipboard_clear()
     root.clipboard_append(url)
-    messagebox.showinfo("Copied", 'Copied to Clipboard')
+    if not shutup:
+     messagebox.showinfo("Copied", 'URL Copied to Clipboard')
 
 def find_world(root_dir):
     for root, dirs, _ in walk(root_dir):
         for dir_name in dirs:
             if fnmatch(dir_name, '*Infinite-Parkour*'):
-                return path.join(root, dir_name)
+                return join(root, dir_name)
     messagebox.showerror('Error', "Cannot find world. Check your path or ensure it exists.")
     print("Cannot find world")
     return None
@@ -42,20 +27,17 @@ def find_world(root_dir):
 def save_config(custom_path):
     with open(f'C:/Users/{getlogin()}/Documents/parkourconfig.json', 'w', encoding='utf-8') as f:
         dump({"data": custom_path}, f, ensure_ascii=False, indent=4)
+        f.close()
         print("config saved")
 
 def load_config():
-    chdir(path.dirname(path.abspath(__file__)))
-    if path.exists(f'C:/Users/{getlogin()}/Documents/parkourconfig.json'):
+    if exists(f'C:/Users/{getlogin()}/Documents/parkourconfig.json'):
         with open(f'C:/Users/{getlogin()}/Documents/parkourconfig.json', 'r') as file:
             print("config loaded")
-            return load(file).get('data', '')
+            ret = load(file).get('data', '')
+            file.close()
+            return ret
     return ''
-
-def remove_old_datapack(datapack_path):
-    if path.exists(datapack_path):
-        rmtree(datapack_path)
-        print("PMC datapack deleted.")
 
 
 def run():
@@ -70,61 +52,43 @@ def run():
         if custom_path:
             save_config(custom_path)
         
-        datapack_path = path.join(world_path, 'datapacks', 'Infinite-Parkour-datapack')
-        old_datapack_path = path.join(world_path, 'datapacks', 'Infinite-Parkour')
-        if not path.exists(datapack_path):
-         remove_old_datapack(old_datapack_path)
-         chdir(path.dirname(datapack_path))
-         system('git clone https://github.com/Big-Con-Gaming/Infinite-Parkour-datapack --depth=1')
-        else:
-         chdir(datapack_path)
-         system('git pull https://github.com/Big-Con-Gaming/Infinite-Parkour-datapack --depth=1')
-        chdir(datapack_path)
-        print(system(f'{datapack_path}/build.bat')) 
+        datapack_path = join(world_path, 'datapacks', 'Infinite-Parkour-datapack-main')
+        
+        rmtree(dirname(datapack_path))
+        makedirs(dirname(datapack_path))
+
+        urlretrieve('https://github.com/Big-Con-Gaming/Infinite-Parkour-datapack/archive/refs/heads/main.zip', f'{dirname(datapack_path)}/temp.zip')
+        with ZipFile("temp.zip", mode="r") as zip:
+         #Extract all files to the current directory
+         zip.extractall()
+         zip.close()
+        remove('temp.zip')
+
+        system(f'{datapack_path}/build.bat') 
+
         messagebox.showinfo("Done", 'Update complete!')
         print("update done")
+
     except Exception as e:
-        messagebox.showerror('Error', f"{e}/nAn error occurred. Contact MrBooks36 for help. Error copied to clipboard")
-        copy(e)
         print(e)
+        messagebox.showerror('Error', f"{e}\nAn error occurred. Contact MrBooks36 for help. Error copied to clipboard")
+        copy(e, True)
 
 def reset_config():
-    if path.exists(f'C:/Users/{getlogin()}/Documents/parkourconfig.json'):
+    if exists(f'C:/Users/{getlogin()}/Documents/parkourconfig.json'):
         remove(f'C:/Users/{getlogin()}/Documents/parkourconfig.json')
     txt.delete(0, END)
 
-def debug():
-    try:
-        print('starting debug')
-        custom_path = txt.get().strip()
-        saves_path = custom_path if custom_path else f"C:/Users/{getlogin()}/AppData/Roaming/.minecraft/saves"
-        world_path = find_world(saves_path)
-        if world_path != None:
-            datapack_path = path.join(world_path, 'datapacks', 'Infinite-Parkour-datapack')
-            old_datapack_path = path.join(world_path, 'datapacks', 'Infinite-Parkour')
-            print('PMC pack ' + ('true' if old_datapack_path and path.exists(old_datapack_path) else 'false'))
-            print('new pack ' + ('true' if datapack_path and path.exists(datapack_path) else 'false'))
-        print('custom path ' + ('true' if custom_path and path.exists(custom_path) else 'false'))
-        print('saves path ' + ('true' if saves_path and path.exists(saves_path) else 'false'))
-        print('world path ' + ('true' if world_path and path.exists(world_path) else 'false'))
-        print('done')
-        messagebox.showinfo("Done", 'Debug complete!')
-    except Exception as e:
-        print(e)
-        print('done')
-        messagebox.showerror('Error', f"{e}/nAn error occurred")
 
 def update():
-   chdir(f'C:/Users/{getlogin()}/Documents/Infinite-Parkour-datapack-updater')
-   system('start cmd /c updaterinstaller.exe') 
+   system('start cmd /c updaterinstaller.exe headless') 
    exit()
 
 
 # GUI Setup
-check_git()
 root = Tk()
 root.title("Packupdater")
-root.geometry('190x80')
+root.geometry('190x55')
 root.resizable(False, False)
 
 Label(root, text="Custom Path").grid(column=2, row=0)
@@ -138,11 +102,9 @@ btn_help.grid(column=1, row=2)
 btn_reset = Button(root, text="Reset Config", command=reset_config)
 btn_reset.grid(column=2, row=2)
 
-btn_reset = Button(root, text="DEBUG", command=debug)
-btn_reset.grid(column=3, row=2)
 
 btn_reset = Button(root, text="Update", command=update)
-btn_reset.grid(column=3, row=3)
+btn_reset.grid(column=3, row=2)
 
 # Entry for custom path
 txt = Entry(root, width=11)
