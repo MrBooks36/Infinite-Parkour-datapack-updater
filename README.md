@@ -1,5 +1,5 @@
 # Infinite Parkour Datapack Updater
-An updater for the [Infinite Parkour Datapack}(https://github.com/Big-Con-Gaming/Infinite-Parkour-datapack).
+An updater for the [Infinite Parkour Datapack](https://github.com/Big-Con-Gaming/Infinite-Parkour-datapack).
 # Install Instructions 
 Windows only. *sorry macOS you are somewhat a work in progress, need a macOS user to help*
 
