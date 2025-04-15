@@ -1,5 +1,5 @@
 from tkinter import Tk, Button, Entry, Label, messagebox, END
-from os import getlogin, system, walk, remove, makedirs
+from os import getlogin, system, walk, remove, makedirs, chdir
 from os.path import exists, join, dirname
 from shutil import rmtree
 from zipfile import ZipFile
@@ -58,13 +58,15 @@ def run():
         makedirs(dirname(datapack_path))
 
         urlretrieve('https://github.com/Big-Con-Gaming/Infinite-Parkour-datapack/archive/refs/heads/main.zip', f'{dirname(datapack_path)}/temp.zip')
-        with ZipFile("temp.zip", mode="r") as zip:
+        with ZipFile(f'{dirname(datapack_path)}/temp.zip', mode="r") as zip:
          #Extract all files to the current directory
-         zip.extractall()
+         zip.extractall(dirname(datapack_path))
          zip.close()
-        remove('temp.zip')
 
-        system(f'{datapack_path}/build.bat') 
+        remove(f'{dirname(datapack_path)}/temp.zip')
+        print(datapack_path)
+        chdir(datapack_path)
+        system(f'{datapack_path}\\build.bat') 
 
         messagebox.showinfo("Done", 'Update complete!')
         print("update done")
