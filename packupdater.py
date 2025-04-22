@@ -120,12 +120,6 @@ def updatepack():
         messagebox.showinfo("Done", 'Update complete!')
         log_message("Update complete!")
 
-    except WindowsError as e:
-        error_trace = format_exc()
-        print(error_trace)
-        copy(e, True)
-        log_message("Error occurred:\n" + error_trace)
-        messagebox.showerror('Error', f"{e}\nAn Access error occurred. Try deleting the pack manually Error copied to clipboard")
     except Exception as e:
         error_trace = format_exc()
         print(error_trace)
